@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(
-    tableName = "shelf_products",
+    tableName = "product_units",
     foreignKeys = [
         ForeignKey(
             entity = ProductDefinition::class,
@@ -16,7 +16,7 @@ import java.util.*
         )
     ]
 )
-data class ShelfProduct(
+data class ProductUnit(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val definitionId: Long,
     val expirationData: Date

@@ -8,7 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import pl.dzielins42.famishedporcupine.data.source.room.ProductDefinition
 import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
-import pl.dzielins42.famishedporcupine.data.source.room.ShelfProduct
+import pl.dzielins42.famishedporcupine.data.source.room.ProductUnit
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
         ).subscribeOn(Schedulers.io())
             .flatMap {
                 db.shelfProductsDao().insert(
-                    ShelfProduct(
+                    ProductUnit(
                         0L, it, Date()
                     ),
-                    ShelfProduct(
+                    ProductUnit(
                         0L, it, Date()
                     )
                 ).subscribeOn(Schedulers.io())

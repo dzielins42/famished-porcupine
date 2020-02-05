@@ -10,7 +10,7 @@ import java.util.*
 @Database(
     entities = [
         ProductDefinition::class,
-        ShelfProduct::class
+        ProductUnit::class
     ],
     version = 1
 )
@@ -25,7 +25,7 @@ abstract class RoomDatabase : RoomDatabase() {
 interface ShelfSectionsDao {
     @Transaction
     @Query("SELECT * FROM product_definitnions")
-    fun getAll(): Flowable<List<ShelfSection>>
+    fun getAll(): Flowable<List<ProductShelf>>
 }
 
 @Dao
@@ -41,14 +41,14 @@ interface ProductDefinitionsDao : BaseCrudDao<ProductDefinition> {
 }
 
 @Dao
-interface ShelfProductsDao : BaseCrudDao<ShelfProduct> {
-    @Query("SELECT * FROM shelf_products")
-    override fun getAll(): Flowable<List<ShelfProduct>>
+interface ShelfProductsDao : BaseCrudDao<ProductUnit> {
+    @Query("SELECT * FROM product_units")
+    override fun getAll(): Flowable<List<ProductUnit>>
 
-    @Query("SELECT * FROM shelf_products WHERE id == :id")
-    override fun get(id: Long): Flowable<ShelfProduct>
+    @Query("SELECT * FROM product_units WHERE id == :id")
+    override fun get(id: Long): Flowable<ProductUnit>
 
-    @Query("DELETE FROM shelf_products WHERE id = :id")
+    @Query("DELETE FROM product_units WHERE id = :id")
     override fun delete(id: Long): Completable
 }
 
