@@ -1,32 +1,40 @@
 package pl.dzielins42.famishedporcupine
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.room.Room
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import pl.dzielins42.famishedporcupine.data.source.room.ProductDefinition
-import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
-import pl.dzielins42.famishedporcupine.data.source.room.ProductUnit
-import timber.log.Timber
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import java.util.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import eu.davidea.flexibleadapter.items.IFlexible
+import eu.davidea.flexibleadapter.items.IHolder
+import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_product_shelf.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import pl.dzielins42.famishedporcupine.data.source.room.ProductShelf
+import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<MainViewModel>()
+    private val adapter = FlexibleAdapter<ProductShelfItem>(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setupUi()
 
         val db = Room.databaseBuilder(
             applicationContext,
             RoomDatabase::class.java,
             "famished-porcupine.db"
         ).build()
-
 
         /*
         val subscribtion = db.productDefinitionsDao().insert(
@@ -50,8 +58,19 @@ class MainActivity : AppCompatActivity() {
             }
         */
 
-        viewModel.viewState.observe(this, Observer {
-            Timber.d(it.toString())
+        viewModel.viewState.observe(this, Observer { viewState ->
+            Timber.d(viewState.toString())
+            adapter.updateDataSet(
+                viewState.map { ProductShelfItem(it) },
+                true
+            )
         })
+    }
+
+    private fun setupUi() {
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = this@MainActivity.adapter
+        }
     }
 }
