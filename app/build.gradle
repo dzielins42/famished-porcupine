@@ -54,6 +54,9 @@ dependencies {
     implementation 'eu.davidea:flexible-adapter:5.1.0'
     implementation 'eu.davidea:flexible-adapter-ui:1.0.0'
 
+    // Material Components for Android
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
+
     // Android Architecture Components
     def room_version = "2.2.3"
     def lifecycle_version = "2.2.0"
