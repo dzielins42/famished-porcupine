@@ -18,6 +18,6 @@ import java.util.*
 )
 data class ShelfProduct(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    val definitionId: String,
+    val definitionId: Long,
     val expirationData: Date
 )

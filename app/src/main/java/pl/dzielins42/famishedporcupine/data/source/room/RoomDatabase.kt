@@ -18,6 +18,14 @@ import java.util.*
 abstract class RoomDatabase : RoomDatabase() {
     abstract fun productDefinitionsDao(): ProductDefinitionsDao
     abstract fun shelfProductsDao(): ShelfProductsDao
+    abstract fun shelfSectionsDao(): ShelfSectionsDao
+}
+
+@Dao
+interface ShelfSectionsDao {
+    @Transaction
+    @Query("SELECT * FROM product_definitnions")
+    fun getAll(): Flowable<List<ShelfSection>>
 }
 
 @Dao

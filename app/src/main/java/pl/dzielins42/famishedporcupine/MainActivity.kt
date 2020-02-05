@@ -8,6 +8,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import pl.dzielins42.famishedporcupine.data.source.room.ProductDefinition
 import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
+import pl.dzielins42.famishedporcupine.data.source.room.ShelfProduct
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,13 +23,24 @@ class MainActivity : AppCompatActivity() {
             "famished-porcupine.db"
         ).build()
 
-        db.productDefinitionsDao().insert(
+        val subscribtion = db.productDefinitionsDao().insert(
             ProductDefinition(
-                123L, "test"
+                0L, "test"
             )
-        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
-        val test = db.productDefinitionsDao().getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            Log.d("test", it.toString())
-        }
+        ).subscribeOn(Schedulers.io())
+            .flatMap {
+                db.shelfProductsDao().insert(
+                    ShelfProduct(
+                        0L, it, Date()
+                    ),
+                    ShelfProduct(
+                        0L, it, Date()
+                    )
+                ).subscribeOn(Schedulers.io())
+            }.flatMapPublisher {
+                db.shelfSectionsDao().getAll().subscribeOn(Schedulers.io())
+            }.observeOn(AndroidSchedulers.mainThread()).subscribe {
+                Log.d("test", it.toString())
+            }
     }
 }
