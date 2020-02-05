@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
 import pl.dzielins42.famishedporcupine.data.source.room.ProductDefinition
 import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
 import pl.dzielins42.famishedporcupine.data.source.room.ProductUnit
+import timber.log.Timber
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             }.flatMapPublisher {
                 db.shelfSectionsDao().getAll().subscribeOn(Schedulers.io())
             }.observeOn(AndroidSchedulers.mainThread()).subscribe {
-                Log.d("test", it.toString())
+                Timber.d(it.toString())
             }
     }
 }
