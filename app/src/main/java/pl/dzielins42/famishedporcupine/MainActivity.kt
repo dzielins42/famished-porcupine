@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             )
         ).subscribeOn(Schedulers.io())
             .flatMap {
-                db.shelfProductsDao().insert(
+                db.productUnitDao().insert(
                     ProductUnit(
                         0L, it, Date()
                     ),
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ).subscribeOn(Schedulers.io())
             }.flatMapPublisher {
-                db.shelfSectionsDao().getAll().subscribeOn(Schedulers.io())
+                db.productShelvesDao().getAll().subscribeOn(Schedulers.io())
             }.observeOn(AndroidSchedulers.mainThread()).subscribe {
                 Timber.d(it.toString())
             }

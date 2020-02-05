@@ -17,12 +17,12 @@ import java.util.*
 @TypeConverters(Converters::class)
 abstract class RoomDatabase : RoomDatabase() {
     abstract fun productDefinitionsDao(): ProductDefinitionsDao
-    abstract fun shelfProductsDao(): ShelfProductsDao
-    abstract fun shelfSectionsDao(): ShelfSectionsDao
+    abstract fun productUnitDao(): ProductUnitDao
+    abstract fun productShelvesDao(): ProductShelvesDao
 }
 
 @Dao
-interface ShelfSectionsDao {
+interface ProductShelvesDao {
     @Transaction
     @Query("SELECT * FROM product_definitnions")
     fun getAll(): Flowable<List<ProductShelf>>
@@ -41,7 +41,7 @@ interface ProductDefinitionsDao : BaseCrudDao<ProductDefinition> {
 }
 
 @Dao
-interface ShelfProductsDao : BaseCrudDao<ProductUnit> {
+interface ProductUnitDao : BaseCrudDao<ProductUnit> {
     @Query("SELECT * FROM product_units")
     override fun getAll(): Flowable<List<ProductUnit>>
 
