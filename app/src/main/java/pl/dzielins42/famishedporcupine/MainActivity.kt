@@ -1,6 +1,9 @@
 package pl.dzielins42.famishedporcupine
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -63,11 +66,28 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
         viewModel.viewState.observe(this, Observer { viewState ->
             Timber.d(viewState.toString())
             adapter.updateDataSet(
-                viewState.map { ProductShelfItem(it, this) },
-                true
+                viewState.map { ProductShelfItem(it, this) }
             )
         })
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        if (BuildConfig.DEBUG) {
+            menuInflater.inflate(R.menu.dev, menu)
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_prepopulate -> {
+                viewModel.onCreateMockProductShelf()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     override fun onAddActionClick(item: ProductShelfItem) {
         Timber.d("onAddActionClick item=${item.model}")
