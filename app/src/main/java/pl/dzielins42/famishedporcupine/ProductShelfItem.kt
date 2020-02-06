@@ -13,7 +13,8 @@ import pl.dzielins42.famishedporcupine.data.source.room.ProductShelf
 
 
 class ProductShelfItem(
-    private val model: ProductShelf
+    private val model: ProductShelf,
+    private val onActionClickListener: OnActionClickListener? = null
 ) : AbstractFlexibleItem<ProductShelfItemViewHolder>(), IHolder<ProductShelf> {
 
     //region IHolder
@@ -29,6 +30,9 @@ class ProductShelfItem(
     ) {
         holder.productName.text = model.definition.name
         holder.unitsCount.text = model.products.size.toString()
+        holder.addButton.setOnClickListener {
+            onActionClickListener?.onAddActionClick(this)
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -47,6 +51,10 @@ class ProductShelfItem(
 
     override fun hashCode(): Int {
         return model.hashCode()
+    }
+
+    interface OnActionClickListener {
+        fun onAddActionClick(item: ProductShelfItem)
     }
 }
 

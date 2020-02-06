@@ -22,7 +22,7 @@ import pl.dzielins42.famishedporcupine.data.source.room.ProductShelf
 import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener {
 
     private val viewModel by viewModel<MainViewModel>()
     private val adapter = FlexibleAdapter<ProductShelfItem>(emptyList())
@@ -63,10 +63,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.viewState.observe(this, Observer { viewState ->
             Timber.d(viewState.toString())
             adapter.updateDataSet(
-                viewState.map { ProductShelfItem(it) },
+                viewState.map { ProductShelfItem(it, this) },
                 true
             )
         })
+    }
+
+    override fun onAddActionClick(item: ProductShelfItem) {
+        Timber.d("onAddActionClick item=${item.model}")
     }
 
     private fun setupUi() {
