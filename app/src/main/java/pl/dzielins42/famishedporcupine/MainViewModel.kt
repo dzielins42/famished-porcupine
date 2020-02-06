@@ -4,18 +4,39 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import pl.dzielins42.famishedporcupine.business.PantryInteractor
 import pl.dzielins42.famishedporcupine.data.source.room.ProductDefinition
 import pl.dzielins42.famishedporcupine.data.source.room.ProductShelf
+import pl.dzielins42.famishedporcupine.data.source.room.ProductUnit
 import java.util.*
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val pantryInteractor: PantryInteractor
+) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
     val viewState: LiveData<List<ProductShelf>>
         get() = mutableViewStateLiveData
     private val mutableViewStateLiveData = MutableLiveData<List<ProductShelf>>(emptyList())
+
+    init {
+        compositeDisposable.add(
+            pantryInteractor.observeProductShelves()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { mutableViewStateLiveData.value = it }
+        )
+    }
+
+    fun addProductUnit(productUnit: ProductUnit) {
+        compositeDisposable.add(
+            pantryInteractor.addProductUnit(productUnit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        )
+    }
 
     fun onCreateMockProductShelf() {
         compositeDisposable.add(Single.fromCallable {
@@ -26,11 +47,9 @@ class MainViewModel : ViewModel() {
                 ),
                 products = emptyList()
             )
-        }.subscribe { mockProduct ->
-            mutableViewStateLiveData.value = mutableViewStateLiveData.value?.run {
-                plus(mockProduct)
-            } ?: listOf(mockProduct)
-        })
+        }.flatMapCompletable {
+            pantryInteractor.addProductShelf(it)
+        }.observeOn(AndroidSchedulers.mainThread()).subscribe())
     }
 
     override fun onCleared() {

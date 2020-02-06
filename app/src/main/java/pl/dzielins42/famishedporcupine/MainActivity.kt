@@ -2,28 +2,19 @@ package pl.dzielins42.famishedporcupine
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import eu.davidea.flexibleadapter.items.IFlexible
-import eu.davidea.flexibleadapter.items.IHolder
-import eu.davidea.viewholders.FlexibleViewHolder
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_product_shelf.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import pl.dzielins42.famishedporcupine.data.source.room.ProductShelf
+import pl.dzielins42.famishedporcupine.data.source.room.ProductUnit
 import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
 import timber.log.Timber
+import java.util.*
 
 class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener {
 
@@ -91,6 +82,14 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
 
     override fun onAddActionClick(item: ProductShelfItem) {
         Timber.d("onAddActionClick item=${item.model}")
+        viewModel.addProductUnit(
+            // TODO This is just a mock
+            ProductUnit(
+                id = 0L,
+                definitionId = item.model.definition.id,
+                expirationData = Date()
+            )
+        )
     }
 
     private fun setupUi() {
