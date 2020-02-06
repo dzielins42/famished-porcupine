@@ -6,13 +6,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.dzielins42.famishedporcupine.data.source.room.ProductUnit
-import pl.dzielins42.famishedporcupine.data.source.room.RoomDatabase
 import timber.log.Timber
 import java.util.*
 
@@ -25,34 +25,6 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupUi()
-
-        val db = Room.databaseBuilder(
-            applicationContext,
-            RoomDatabase::class.java,
-            "famished-porcupine.db"
-        ).build()
-
-        /*
-        val subscribtion = db.productDefinitionsDao().insert(
-            ProductDefinition(
-                0L, "test"
-            )
-        ).subscribeOn(Schedulers.io())
-            .flatMap {
-                db.productUnitDao().insert(
-                    ProductUnit(
-                        0L, it, Date()
-                    ),
-                    ProductUnit(
-                        0L, it, Date()
-                    )
-                ).subscribeOn(Schedulers.io())
-            }.flatMapPublisher {
-                db.productShelvesDao().getAll().subscribeOn(Schedulers.io())
-            }.observeOn(AndroidSchedulers.mainThread()).subscribe {
-                Timber.d(it.toString())
-            }
-        */
 
         viewModel.viewState.observe(this, Observer { viewState ->
             Timber.d(viewState.toString())
@@ -82,14 +54,15 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
 
     override fun onAddActionClick(item: ProductShelfItem) {
         Timber.d("onAddActionClick item=${item.model}")
-        viewModel.addProductUnit(
-            // TODO This is just a mock
-            ProductUnit(
-                id = 0L,
-                definitionId = item.model.definition.id,
-                expirationData = Date()
+        showDatePicker(MaterialPickerOnPositiveButtonClickListener { selectedDate ->
+            viewModel.addProductUnit(
+                ProductUnit(
+                    id = 0L,
+                    definitionId = item.model.definition.id,
+                    expirationData = Date(selectedDate)
+                )
             )
-        )
+        })
     }
 
     private fun setupUi() {
@@ -102,5 +75,18 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
                     .withEdge(true)
             )
         }
+    }
+
+    private fun showDatePicker(
+        onPositiveButtonClickListener: MaterialPickerOnPositiveButtonClickListener<Long>
+    ) {
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+            .setTitleText(R.string.title_select_expiration_date)
+            .build()
+
+        picker.addOnPositiveButtonClickListener(onPositiveButtonClickListener)
+
+        picker.show(supportFragmentManager, picker.hashCode().toString())
     }
 }

@@ -1,4 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Famished Porcupine</string>
     <string name="action_add">Add</string>
+    <string name="title_select_expiration_date">Select expiration date</string>
+
+    <!--Material Components for Android-->
+    <string name="mtrl_picker_date_header_unselected" tools:override="true">Selected date</string>
+    <string name="mtrl_picker_text_input_date_hint" tools:override="true">Date</string>
 </resources>
