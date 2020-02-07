@@ -29,7 +29,9 @@ class ProductShelfItem(
         payloads: MutableList<Any>?
     ) {
         holder.productName.text = model.definition.name
-        holder.unitsCount.text = model.products.size.toString()
+        holder.unitGreen.text = model.products.size.toString()
+        holder.unitOrange.text = model.products.size.toString()
+        holder.unitRed.text = model.products.size.toString()
         holder.addButton.setOnClickListener {
             onActionClickListener?.onAddActionClick(this)
         }

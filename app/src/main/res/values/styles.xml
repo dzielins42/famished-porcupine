@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Widget.MaterialComponents.Chip.Action.Green">
+        <item name="chipSurfaceColor">@color/chelsea_cucumber</item>
+    </style>
+
+    <style name="Widget.MaterialComponents.Chip.Action.Orange">
+        <item name="chipSurfaceColor">@color/dark_orange</item>
+    </style>
+
+    <style name="Widget.MaterialComponents.Chip.Action.Red">
+        <item name="chipSurfaceColor">@color/cinnabar</item>
+    </style>
+
 </resources>

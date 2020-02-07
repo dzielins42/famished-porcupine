@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/productName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/double_space"
             android:layout_marginTop="@dimen/double_space"
@@ -19,17 +19,50 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceHeadline5"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/unitsInfo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Product Name" />
 
-        <TextView
-            android:id="@+id/unitsCount"
-            android:layout_width="wrap_content"
+        <HorizontalScrollView
+            android:id="@+id/unitsInfo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/double_space"
+            android:layout_marginTop="@dimen/standard_space"
+            android:layout_marginEnd="@dimen/double_space"
+            app:layout_constraintBottom_toTopOf="@id/addButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/productName" />
+            app:layout_constraintTop_toBottomOf="@id/productName">
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/unitGreen"
+                    style="@style/Widget.MaterialComponents.Chip.Action.Green"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Lorem ipsum." />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/unitOrange"
+                    style="@style/Widget.MaterialComponents.Chip.Action.Orange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Lorem ipsum." />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/unitRed"
+                    style="@style/Widget.MaterialComponents.Chip.Action.Red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Lorem ipsum." />
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addButton"
@@ -41,6 +74,6 @@
             app:icon="@drawable/ic_add_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/unitsCount" />
+            app:layout_constraintTop_toBottomOf="@id/unitsInfo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

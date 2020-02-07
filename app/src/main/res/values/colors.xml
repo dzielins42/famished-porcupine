@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="chelsea_cucumber">#7CB342</color>
+    <color name="dark_orange">#FB8C00</color>
+    <color name="cinnabar">#E53935</color>
 </resources>
