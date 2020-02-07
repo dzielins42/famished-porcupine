@@ -21,9 +21,7 @@ class PantryInteractor(
                 list.map { productShelf ->
                     ProductShelfExtended(
                         productShelf,
-                        productShelf.products.map { unit ->
-                            ProductUnitExtended(unit, calculateProductUnitFreshness(unit))
-                        }
+                        prepareProductUnits(productShelf.products)
                     )
                 }
             }
@@ -35,6 +33,13 @@ class PantryInteractor(
 
     fun addProductUnit(productUnit: ProductUnit): Completable {
         return pantryRepository.saveProductUnit(productUnit)
+    }
+
+    private fun prepareProductUnits(units: List<ProductUnit>): List<ProductUnitExtended> {
+        return units.sortedBy { it.expirationDate }
+            .map { unit ->
+                ProductUnitExtended(unit, calculateProductUnitFreshness(unit))
+            }
     }
 
     private fun calculateProductUnitFreshness(unit: ProductUnit): Freshness {
