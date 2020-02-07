@@ -7,6 +7,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import pl.dzielins42.famishedporcupine.business.PantryInteractor
+import pl.dzielins42.famishedporcupine.data.model.ProductShelfExtended
 import pl.dzielins42.famishedporcupine.data.source.room.ProductDefinition
 import pl.dzielins42.famishedporcupine.data.source.room.ProductShelf
 import pl.dzielins42.famishedporcupine.data.source.room.ProductUnit
@@ -18,9 +19,9 @@ class MainViewModel(
 
     private val compositeDisposable = CompositeDisposable()
 
-    val viewState: LiveData<List<ProductShelf>>
+    val viewState: LiveData<List<ProductShelfExtended>>
         get() = mutableViewStateLiveData
-    private val mutableViewStateLiveData = MutableLiveData<List<ProductShelf>>(emptyList())
+    private val mutableViewStateLiveData = MutableLiveData<List<ProductShelfExtended>>(emptyList())
 
     init {
         compositeDisposable.add(

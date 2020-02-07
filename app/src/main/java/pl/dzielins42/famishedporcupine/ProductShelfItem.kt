@@ -9,16 +9,17 @@ import eu.davidea.flexibleadapter.items.IHolder
 import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_product_shelf.*
-import pl.dzielins42.famishedporcupine.data.source.room.ProductShelf
+import pl.dzielins42.famishedporcupine.data.model.Freshness
+import pl.dzielins42.famishedporcupine.data.model.ProductShelfExtended
 
 
 class ProductShelfItem(
-    private val model: ProductShelf,
+    private val model: ProductShelfExtended,
     private val onActionClickListener: OnActionClickListener? = null
-) : AbstractFlexibleItem<ProductShelfItemViewHolder>(), IHolder<ProductShelf> {
+) : AbstractFlexibleItem<ProductShelfItemViewHolder>(), IHolder<ProductShelfExtended> {
 
     //region IHolder
-    override fun getModel(): ProductShelf = model
+    override fun getModel(): ProductShelfExtended = model
     //endregion
 
     //region AbstractFlexibleItem
@@ -29,9 +30,9 @@ class ProductShelfItem(
         payloads: MutableList<Any>?
     ) {
         holder.productName.text = model.definition.name
-        holder.unitGreen.text = model.products.size.toString()
-        holder.unitOrange.text = model.products.size.toString()
-        holder.unitRed.text = model.products.size.toString()
+        holder.unitGreen.text = model.getProductsCountByFreshness(Freshness.GREEN).toString()
+        holder.unitOrange.text = model.getProductsCountByFreshness(Freshness.ORANGE).toString()
+        holder.unitRed.text = model.getProductsCountByFreshness(Freshness.RED).toString()
         holder.addButton.setOnClickListener {
             onActionClickListener?.onAddActionClick(this)
         }
