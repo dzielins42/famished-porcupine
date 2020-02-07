@@ -19,5 +19,5 @@ import java.util.*
 data class ProductUnit(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val definitionId: Long,
-    val expirationData: Date
+    val expirationDate: Date
 )

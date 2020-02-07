@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
                 ProductUnit(
                     id = 0L,
                     definitionId = item.model.definition.id,
-                    expirationData = Date(selectedDate)
+                    expirationDate = Date(selectedDate)
                 )
             )
         })
