@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,7 +19,9 @@ import pl.dzielins42.famishedporcupine.item.ProductUnitItem
 import timber.log.Timber
 import java.util.*
 
-class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener {
+class MainActivity : AppCompatActivity(),
+    ProductShelfItem.OnActionClickListener,
+    ProductUnitItem.OnActionClickListener {
 
     private val viewModel by viewModel<MainViewModel>()
     private val adapter = FlexibleAdapter<IFlexible<*>>(emptyList(), null, true)
@@ -40,7 +41,11 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
                     ).apply {
                         isExpanded = false
                         productShelf.units.map { unit ->
-                            ProductUnitItem(unit, this)
+                            ProductUnitItem(
+                                unit,
+                                this,
+                                this@MainActivity
+                            )
                         }.forEach { unit -> this.addSubItem(unit) }
                     }
                 }
@@ -77,6 +82,11 @@ class MainActivity : AppCompatActivity(), ProductShelfItem.OnActionClickListener
                 )
             )
         })
+    }
+
+    override fun onRemoveActionClick(item: ProductUnitItem) {
+        Timber.d("onRemoveActionClick item=${item.model}")
+        viewModel.removeProductUnit(item.model.id)
     }
 
     private fun setupUi() {

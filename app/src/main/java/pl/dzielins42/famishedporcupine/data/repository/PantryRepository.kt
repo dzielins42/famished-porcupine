@@ -9,4 +9,5 @@ interface PantryRepository {
     fun observeProductShelves(): Flowable<List<ProductShelf>>
     fun saveProductShelf(productShelf: ProductShelf): Completable
     fun saveProductUnit(productUnit: ProductUnit): Completable
+    fun deleteProductUnit(productUnitId: Long): Completable
 }

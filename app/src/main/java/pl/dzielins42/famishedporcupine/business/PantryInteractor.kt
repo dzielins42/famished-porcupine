@@ -35,6 +35,10 @@ class PantryInteractor(
         return pantryRepository.saveProductUnit(productUnit)
     }
 
+    fun removeProductUnit(productUnitId: Long): Completable {
+        return pantryRepository.deleteProductUnit(productUnitId)
+    }
+
     private fun prepareProductUnits(units: List<ProductUnit>): List<ProductUnitExtended> {
         return units.sortedBy { it.expirationDate }
             .map { unit ->

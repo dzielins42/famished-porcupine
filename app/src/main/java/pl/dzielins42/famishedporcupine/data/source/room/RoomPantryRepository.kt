@@ -8,6 +8,7 @@ import pl.dzielins42.famishedporcupine.data.repository.PantryRepository
 class RoomPantryRepository(
     private val roomDatabase: RoomDatabase
 ) : PantryRepository {
+
     override fun observeProductShelves(): Flowable<List<ProductShelf>> {
         return roomDatabase.productShelvesDao().getAll()
             .subscribeOn(Schedulers.io())
@@ -38,5 +39,10 @@ class RoomPantryRepository(
         }
 
         return action.subscribeOn(Schedulers.io())
+    }
+
+    override fun deleteProductUnit(productUnitId: Long): Completable {
+        return roomDatabase.productUnitDao().delete(productUnitId)
+            .subscribeOn(Schedulers.io())
     }
 }

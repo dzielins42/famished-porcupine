@@ -39,6 +39,14 @@ class MainViewModel(
         )
     }
 
+    fun removeProductUnit(productUnitId: Long) {
+        compositeDisposable.add(
+            pantryInteractor.removeProductUnit(productUnitId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        )
+    }
+
     fun onCreateMockProductShelf() {
         compositeDisposable.add(Single.fromCallable {
             ProductShelf(

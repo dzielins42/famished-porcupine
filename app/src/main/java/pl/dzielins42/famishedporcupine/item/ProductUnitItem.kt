@@ -19,7 +19,8 @@ import pl.dzielins42.famishedporcupine.data.model.ProductUnitExtended
 
 class ProductUnitItem(
     private val model: ProductUnitExtended,
-    productShelfItem: ProductShelfItem
+    productShelfItem: ProductShelfItem,
+    private val listener: OnActionClickListener? = null
 ) : AbstractSectionableItem<ProductUnitItemViewHolder, ProductShelfItem>(productShelfItem),
     IHolder<ProductUnitExtended> {
 
@@ -49,6 +50,9 @@ class ProductUnitItem(
                 )
             )
         )
+        holder.removeButton.setOnClickListener {
+            listener?.onRemoveActionClick(this)
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -65,6 +69,10 @@ class ProductUnitItem(
 
     override fun hashCode(): Int {
         return model.hashCode()
+    }
+
+    interface OnActionClickListener {
+        fun onRemoveActionClick(item: ProductUnitItem)
     }
 }
 
