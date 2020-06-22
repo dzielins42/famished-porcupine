@@ -51,7 +51,6 @@ dependencies {
     // Koin
     implementation "org.koin:koin-android:2.0.1"
     implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
-    implementation 'org.koin:koin-androidx-scope:2.0.1'
 
     // FlexibleAdapter
     implementation 'eu.davidea:flexible-adapter:5.1.0'
